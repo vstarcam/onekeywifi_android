@@ -1,10 +1,15 @@
 package com.mediatek.demo.smartconnection;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -49,8 +54,30 @@ public class MainActivity extends Activity {
     private String sendMac = null;
     private String wifiName;
     private String currentBssid;
-
     private JniLoader loader;
+    private static final int REQUEST_PERMISSION = 0;
+
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                REQUEST_PERMISSION);
+    }
+
+
+    @TargetApi(23)
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        Log.e("SmartConnection","onRequestPermissionsResult "+requestCode);
+        if (requestCode == REQUEST_PERMISSION) {
+            if ((grantResults.length == 2 && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                    && grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
+                getwifiInformation();
+            } else {
+                Toast.makeText(mContext,"get ssid fail",Toast.LENGTH_LONG).show();
+                finish();
+            }
+        } else {
+            //super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +101,9 @@ public class MainActivity extends Activity {
         mV5CheckBox = (CheckBox)this.findViewById(R.id.checkbox_v5);
 
         mContext = this;
+
         mStartButton.setEnabled(true);
         mStopButton.setEnabled(false);
-        getWifi();
 
         boolean res = JniLoader.LoadLib();
         Log.e("SmartConnection", "Load Smart Connection Library Result ：" + res);
@@ -86,17 +113,45 @@ public class MainActivity extends Activity {
         int libV = loader.GetLibVersion();
         Log.e("SmartConnection", "libV ：" + libV);
         String version = "V" + proV + "." + libV;
-        
+
         this.getActionBar().setTitle("SmartConnection (" + version + ")");
 
         mV1CheckBox.setChecked(false);
         mV4CheckBox.setChecked(false);
         mV5CheckBox.setChecked(false);
-        
+
         mNameEdit.addTextChangedListener(new EditChangeHandler(1));
         mPswEdit.addTextChangedListener(new EditChangeHandler(2));
         mCustomInfoEdit.addTextChangedListener(new EditChangeHandler(3));
-        
+
+        PackageManager pkgManager = getPackageManager();
+
+        //  ACCESS_COARSE_LOCATION
+        boolean ACCESS_COARSE_LOCATION1 =
+                pkgManager.checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION, getPackageName()) == PackageManager.PERMISSION_GRANTED;
+
+        // read phone state用于获取 imei 设备信息
+        boolean ACCESS_FINE_LOCATION1 =
+                pkgManager.checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, getPackageName()) == PackageManager.PERMISSION_GRANTED;
+
+
+        Log.e("SmartConnection","ACCESS_COARSE_LOCATION1"+ACCESS_COARSE_LOCATION1);
+        Log.e("SmartConnection","ACCESS_FINE_LOCATION1"+ACCESS_FINE_LOCATION1);
+        Log.e("SmartConnection","Build.VERSION.SDK_INT"+Build.VERSION.SDK_INT);
+        if (Build.VERSION.SDK_INT >= 23 && !ACCESS_COARSE_LOCATION1 || !ACCESS_FINE_LOCATION1) {
+            Log.e("SmartConnection","requestPermission");
+            requestPermission();
+        } else {
+            Log.e("SmartConnection","requestPermission  sucess");
+            getwifiInformation();
+        }
+
+    }
+
+    private void getwifiInformation()
+    {
+        getWifi();
+
         WifiManager wManager = (WifiManager)this.getSystemService(Context.WIFI_SERVICE);
         WifiInfo info = wManager.getConnectionInfo();
         Log.e("SmartConnection", "start info=" + info.getSSID());
@@ -106,7 +161,6 @@ public class MainActivity extends Activity {
             mNameEdit.setText(ssid);
             mNameEdit.setSelection(mNameEdit.getText().length());
         }
-
     }
 
     @Override
@@ -165,7 +219,7 @@ public class MainActivity extends Activity {
                 }else{
                     Log.e("SmartConnection", "Start Smart Custom-len="+Custom.length()+", Custom-emp="+Custom.isEmpty());
                 }
-                Log.e("SmartConnection", "Start Smart SSID=" + SSID + ", Password=" + Password + ", Custom=" + Custom);
+                Log.e("SmartConnection", "Start Smart SSID=" + SSID + ", Password=" + Password + ", Custom=" + Custom+"sendMac"+sendMac);
                 //retValue = loader.StartSmartConnection(SSID, Password, Custom);
                 sendSonic(sendMac,Password.toString());
                 Log.e("SmartConnection", "start return retValue=" + retValue);
