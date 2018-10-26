@@ -220,7 +220,7 @@ public class MainActivity extends Activity {
                     Log.e("SmartConnection", "Start Smart Custom-len="+Custom.length()+", Custom-emp="+Custom.isEmpty());
                 }
                 Log.e("SmartConnection", "Start Smart SSID=" + SSID + ", Password=" + Password + ", Custom=" + Custom+"sendMac"+sendMac);
-                //retValue = loader.StartSmartConnection(SSID, Password, Custom);
+                retValue = loader.StartSmartConnection(SSID, Password, Custom);
                 sendSonic(sendMac,Password.toString());
                 Log.e("SmartConnection", "start return retValue=" + retValue);
                 if (retValue != JniLoader.ERROR_CODE_OK) {
@@ -334,29 +334,50 @@ public class MainActivity extends Activity {
         String tomacaddress[] = currentBssid.split(":");
         int currentLen = currentBssid.split(":").length;
 
-        for (int m = currentLen - 1; m > -1; m--)
-        {
-            for (int j = mList.size() - 1; j > -1; j--)
-            {
-                if (!currentBssid.equals(mList.get(j)))
-                {
+        for (int m = currentLen - 1; m > -1; m--) {
+            for (int j = mList.size() - 1; j > -1; j--) {
+                if (!currentBssid.equals(mList.get(j))) {
                     String array[] = mList.get(j).split(":");
                     if (!tomacaddress[m].equals(array[m])) {
-                        mList.remove(j);//
+                        mList.remove(j);
                     }
                 }
             }
             if (mList.size() == 1 || mList.size() == 0) {
                 if (m == 5) {
-                    sendMac = tomacaddress[m].toString();
+                    sendMac = tomacaddress[m - 1].toString() + tomacaddress[m].toString();
                 } else if (m == 4) {
                     sendMac = tomacaddress[m].toString()
                             + tomacaddress[m + 1].toString();
-                } else {
-                    sendMac = tomacaddress[5].toString()
-                            + tomacaddress[4].toString()
-                            + tomacaddress[3].toString();
+                } else if (m == 3) {
+                    sendMac = tomacaddress[m].toString()
+                            + tomacaddress[m + 1].toString()
+                            + tomacaddress[m + 2].toString();
+                } else if (m == 2) {
+                    sendMac = tomacaddress[m].toString()
+                            + tomacaddress[m + 1].toString()
+                            + tomacaddress[m + 2].toString()
+                            + tomacaddress[m + 3].toString();
+                } else if (m == 1) {
+                    sendMac = tomacaddress[m].toString()
+                            + tomacaddress[m + 1].toString()
+                            + tomacaddress[m + 2].toString()
+                            + tomacaddress[m + 3].toString()
+                            + tomacaddress[m + 4].toString();
                 }
+                else {
+                    sendMac = tomacaddress[m].toString()
+                            + tomacaddress[m + 1].toString()
+                            + tomacaddress[m + 2].toString()
+                            + tomacaddress[m + 3].toString()
+                            + tomacaddress[m + 4].toString()
+                            + tomacaddress[m + 5].toString();
+                }
+                break;
+            }else
+            {
+                sendMac = tomacaddress[4].toString()
+                        + tomacaddress[4 + 1].toString();
                 break;
             }
         }
