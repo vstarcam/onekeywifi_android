@@ -47,7 +47,7 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/mediatek/demo/smartconnection/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2910">
+            <state relative-caret-position="837">
               <caret line="222" column="24" lean-forward="false" selection-start-line="222" selection-start-column="16" selection-end-line="222" selection-end-column="24" />
               <folding />
             </state>
@@ -1858,11 +1858,10 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-113" />
+  <component name="ProjectFrameBounds">
     <option name="y" value="23" />
-    <option name="width" value="1067" />
-    <option name="height" value="790" />
+    <option name="width" value="1440" />
+    <option name="height" value="813" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -2124,6 +2123,50 @@
               <item name="Android" type="b2602c69:ProjectViewProjectNode" />
               <item name="Android" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
             </path>
+            <path>
+              <item name="Android" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Android" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+            </path>
+            <path>
+              <item name="Android" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Android" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="build" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Android" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Android" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="build" type="462c0819:PsiDirectoryNode" />
+              <item name="outputs" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Android" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Android" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="build" type="462c0819:PsiDirectoryNode" />
+              <item name="outputs" type="462c0819:PsiDirectoryNode" />
+              <item name="logs" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Android" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Android" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="build" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Android" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Android" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="build" type="462c0819:PsiDirectoryNode" />
+              <item name="intermediates" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Android" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Android" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="build" type="462c0819:PsiDirectoryNode" />
+              <item name="intermediates" type="462c0819:PsiDirectoryNode" />
+              <item name="dex-cache" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -2149,7 +2192,7 @@
     <property name="settings.editor.selected.configurable" value="reference.settings.ide.settings.spelling" />
     <property name="android.project.structure.last.selected" value="SDK Location" />
     <property name="android.project.structure.proportion" value="0.15" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1540523963682" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1540525188310" />
     <property name="sync.plugin.last.upgrade.timestamp" value="1540521021687" />
     <property name="device.picker.selection" value="W4GAVCS4SSIVA6YT" />
   </component>
@@ -2465,7 +2508,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="815" extended-state="6" />
+    <frame x="0" y="23" width="1440" height="813" extended-state="0" />
     <layout>
       <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -2541,7 +2584,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/mediatek/demo/smartconnection/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2910">
+        <state relative-caret-position="837">
           <caret line="222" column="24" lean-forward="false" selection-start-line="222" selection-start-column="16" selection-end-line="222" selection-end-column="24" />
           <folding />
         </state>
