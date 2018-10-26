@@ -9,6 +9,8 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -25,6 +27,9 @@ import voice.encoder.VoicePlayer;
 import voice.encoder.DataEncoder;
 import android.widget.Toast;
 import android.net.wifi.ScanResult;
+
+import com.broadcom.cooee.Cooee;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,6 +61,7 @@ public class MainActivity extends Activity {
     private String currentBssid;
     private JniLoader loader;
     private static final int REQUEST_PERMISSION = 0;
+    private Thread boThread;
 
     private void requestPermission() {
         ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
@@ -227,7 +233,7 @@ public class MainActivity extends Activity {
                     showWarningDialog(R.string.start_failed);
                     return;
                 }
-                
+                rHandler.sendEmptyMessageDelayed(1,7000);
                 updateUIWhileSending();
             }
         });
@@ -243,8 +249,40 @@ public class MainActivity extends Activity {
                 }
                 updateUIWhileStopped();
                 player.stop();
+                if (boThread != null && boThread.isAlive()){
+                    boThread.interrupt();
+                }
             }
         });
+    }
+
+    private class boThread extends Thread {
+        private boolean isRun = false;
+        private String mssid;
+        private String mpwd;
+        private int mip;
+
+        private boThread(String ssid, String pwd, int ip, boolean run) {
+            mssid = ssid;
+            mpwd = pwd;
+            mip = ip;
+            isRun = run;
+        }
+
+        @Override
+        public void interrupt() {
+            super.interrupt();
+            isRun = false;
+        }
+
+        @Override
+        public void run() {
+            super.run();
+            while (isRun) {
+                Log.e("api","cooee");
+                Cooee.send(mssid, mpwd, mip);
+            }
+        }
     }
 
     private static byte uniteBytes(byte src0, byte src1)
@@ -255,6 +293,35 @@ public class MainActivity extends Activity {
         byte ret = (byte) (_b0 ^ _b1);
         return ret;
     }
+    int mLocalIp;
+    private Handler rHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1:
+                    if(loader!=null) {
+                        //LogTools.saveLog(LogTools.CAMERA_ADD, "MTK ：StopSmartConnection");
+                        int retValue = loader.StopSmartConnection();
+                        if (retValue != JniLoader.ERROR_CODE_OK) {
+                            //LogTools.saveLog(LogTools.CAMERA_ADD, "MTK ：StopSmartConnection is error!!!!!!");
+                        }
+                    }
+                    String SSID = mNameEdit.getText().toString();
+                    String Password = mPswEdit.getText().toString();
+                    boThread = new boThread(SSID, Password.trim(), mLocalIp, true);
+                    boThread.start();
+
+                    break;
+                case 2:
+                    break;
+                case 3:
+
+                    break;
+
+            }
+        }
+    };
 
     private static byte[] HexString2Bytes(String src)
     {
@@ -286,7 +353,7 @@ public class MainActivity extends Activity {
         WifiManager wifiMan = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
 
         WifiInfo wifiInfo = wifiMan.getConnectionInfo();
-
+        mLocalIp = wifiInfo.getIpAddress();
         wifiName = wifiInfo.getSSID().toString();
         if (wifiName.length() > 2 && wifiName.charAt(0) == '"'
                 && wifiName.charAt(wifiName.length() - 1) == '"') {

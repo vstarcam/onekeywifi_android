@@ -19,6 +19,7 @@ android {
 }
 
 dependencies {
+    compile files('libs/com.broadcom.cooee.jar')
     compile files('libs/voice.jar')
     compile 'com.android.support:support-v4:22.2.1'
     compile 'com.android.support:appcompat-v7:24.2.1'
