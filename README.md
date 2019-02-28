@@ -1,6 +1,9 @@
 # onekeywifi_android
 onekeywifi_android
 
+20190228   
+支持arm64-v8a    
+
 
 ========================================
 支持targetsdkver >22 

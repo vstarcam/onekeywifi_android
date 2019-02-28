@@ -351,7 +351,6 @@ public class MainActivity extends Activity {
     private void getWifi()
     {
         WifiManager wifiMan = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
-
         WifiInfo wifiInfo = wifiMan.getConnectionInfo();
         mLocalIp = wifiInfo.getIpAddress();
         wifiName = wifiInfo.getSSID().toString();
@@ -367,27 +366,32 @@ public class MainActivity extends Activity {
         for (int i = 0; i < wifiList.size(); i++)
         {
             mList.add((wifiList.get(i).BSSID).toString());
-
+            Log.e("print","wifiBssid-list0:"+(wifiList.get(i).BSSID).toString() +"ssid-" +wifiList.get(i).SSID.toString());
         }
 
         currentBssid = wifiInfo.getBSSID();
+        Log.e("print","currentBssid"+currentBssid);
+
         if (currentBssid == null)
         {
             for (int i = 0; i < wifiList.size(); i++) {
                 if ((wifiList.get(i).SSID).toString().equals(wifiName))
                 {
                     currentBssid = (wifiList.get(i).BSSID).toString();
+                    Log.e("print","wifiBssid-list"+(wifiList.get(i).BSSID).toString());
                     break;
                 }
             }
         }
         else {
             if (currentBssid.equals("00:00:00:00:00:00")
-                    || currentBssid.equals("")) {
+                    || currentBssid.equals(""))
+            {
                 for (int i = 0; i < wifiList.size(); i++)
                 {
                     if ((wifiList.get(i).SSID).toString().equals(wifiName)) {
                         currentBssid = (wifiList.get(i).BSSID).toString();
+                        Log.e("print","wifiBssid-list2"+(wifiList.get(i).BSSID).toString());
                         break;
                     }
                 }
@@ -397,6 +401,8 @@ public class MainActivity extends Activity {
         {
             finish();
         }
+
+        Log.e("vst","currentBssid"+currentBssid);
 
         String tomacaddress[] = currentBssid.split(":");
         int currentLen = currentBssid.split(":").length;
